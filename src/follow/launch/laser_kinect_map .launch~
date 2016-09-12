@@ -1,0 +1,11 @@
+<launch>
+    <include file="$(find syn)/launch/nav.launch" />
+  </node>
+  <node name= "local_map" pkg= "local_map" type= "local_map" >
+    <remap from="scan" to="syn_msg" />
+    <param name="map_width"         type="double"    value="40"/>
+    <param name="map_height"        type="double"    value="40"/>
+    <param name="map_resolution"    type="double"    value="0.1"/>
+  </node>
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map laser 100" />
+</launch>

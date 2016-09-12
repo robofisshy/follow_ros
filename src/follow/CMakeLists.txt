@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(follow)
+
+
+find_package(catkin REQUIRED COMPONENTS
+  geometry_msgs
+  roscpp
+  rospy
+  std_msgs
+)
+
+catkin_package(
+)
+
+FIND_PATH(OpenNI2_INCLUDE_DIRS OpenNI.h HINTS  $ENV{OPENNI2_INCLUDE} PATH_SUFFIXES openni2)  
+FIND_LIBRARY(OpenNI2_LIBRARY NAMES OpenNI2 HINTS  $ENV{OPENNI2_LIB} $ENV{OPENNI2_REDIST})  
+include_directories( ${OpenNI2_INCLUDE_DIRS} )  
+
+include_directories(include
+  ${catkin_INCLUDE_DIRS}
+  ${OPENNI2_INCLUDE}
+  "/home/chen/OpenNI-Linux-x64-2.2/Include"
+  ${OPENNI2_REDIST}
+  "/home/chen/OpenNI-Linux-x64-2.2/Samples/Common"
+)
+
+  SET(OpenNI2_LIBRARIES ${OpenNI2_LIBRARY})  
+
+ add_executable(follow src/follow.cpp)
+
+
+ add_dependencies(follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+ set(CMAKE_CXX_FLAGS -O2)	
+
+ target_link_libraries(follow
+   ${catkin_LIBRARIES}
+   ${OpenNI2_LIBRARIES}
+ )
+

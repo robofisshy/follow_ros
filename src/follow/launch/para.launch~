@@ -1,0 +1,7 @@
+<launch>
+  <node name="$(anon dynparam)" pkg="dynamic_reconfigure" type="dynparam" args="set_from_parameters hokuyo_node">
+    <param name="min_ang" type="double" value="-0.02" />
+    <param name="max_ang" type="double" value="0.02" />
+    <param name="skip" type="double" value="9" />
+  </node>
+</launch>

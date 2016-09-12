@@ -1,0 +1,15 @@
+<launch>
+    <include file="$(find syn)/launch/nav.launch" />
+
+  <node name= "local_map" pkg= "local_map" type= "local_map" >
+    <remap from="/scan" to="/syn_msg"/>
+    <remap from="/local_map" to="/kinectscanmap"/>
+    <param name="map_width"         type="double"    value="200"/>
+    <param name="map_height"        type="double"    value="200"/>
+    <param name="map_resolution"    type="double"    value="0.02"/>
+
+  </node>
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map laser 100" />
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map camera_depth_frame 100" />
+
+</launch>

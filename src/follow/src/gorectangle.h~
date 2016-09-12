@@ -1,0 +1,37 @@
+//
+// Created by chen on 16-7-22.
+//
+
+#ifndef GOFORWARD_GORECTANGLE_H
+#define GOFORWARD_GORECTANGLE_H
+
+#endif //GOFORWARD_GORECTANGLE_H
+
+#include <ros/ros.h>
+#include <tf/transform_listener.h>
+#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/PoseStamped.h>
+#include <cmath>
+using namespace geometry_msgs;
+using namespace std;
+
+
+ struct point
+ {
+     double x,y;
+ };
+tf::TransformListener poselistener;
+bool getposition(tf::StampedTransform &posetransform)
+{
+ //tf::StampedTransform posetransform;
+ try {
+  poselistener.waitForTransform("/world", "/robot", ros::Time(0), ros::Duration(1.0));
+  poselistener.lookupTransform("/world", "/robot", ros::Time(0), posetransform);
+ }
+ catch (tf::TransformException ex) {
+  ROS_ERROR("%s", ex.what());
+  //ros::Duration(1.0).sleep();
+  return false;
+ }
+ return true;
+}

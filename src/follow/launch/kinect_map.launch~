@@ -1,0 +1,15 @@
+<launch>
+    <include file="$(find laserscan_kinect)/launch/laserscan.launch" />
+
+    <include file="$(find laser_filters)/examples/median_filter_5_example.launch" />
+
+  <node name= "local_map" pkg= "local_map" type= "local_map" ns="kinect_map">
+    <remap from="/scan" to="/scan_filtered"/>
+    <remap from="/local_map" to="/kinectmap"/>
+    <param name="map_width"         type="double"    value="200"/>
+    <param name="map_height"        type="double"    value="300"/>
+    <param name="map_resolution"    type="double"    value="0.01"/>
+
+  </node>
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map camera_depth_frame 100" />
+</launch>

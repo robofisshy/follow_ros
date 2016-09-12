@@ -1,0 +1,8 @@
+prefix=/opt/project/catkin_ws/devel
+
+Name: follow
+Description: Description of follow
+Version: 0.0.0
+Cflags: 
+Libs: -L/opt/project/catkin_ws/devel/lib 
+Requires: 

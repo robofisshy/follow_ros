@@ -1,0 +1,14 @@
+<launch>
+  <node name= "syn_sonar" pkg= "syn" type= "syn_sonar" >
+    <remap from="syn_sonar_scan" to="local_map/scan" />
+  </node>
+
+  <node name= "local_map" pkg= "local_map" type= "local_map" >
+    <remap from="/scan" to="local_map/scan" />
+    <param name="map_width"         type="double"    value="80"/>
+    <param name="map_height"        type="double"    value="80"/>
+    <param name="map_resolution"    type="double"    value="0.05"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map sonar 100" />
+</launch>

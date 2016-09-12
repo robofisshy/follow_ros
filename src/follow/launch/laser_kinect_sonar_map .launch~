@@ -1,0 +1,32 @@
+<launch>
+    <include file="$(find syn)/launch/nav.launch" />
+
+  <node name= "local_map" pkg= "local_map" type= "local_map" >
+    <remap from="/scan" to="/syn_msg" />
+    <remap from="/local_map" to="/kinectscanmap" />
+    <param name="map_width"         type="double"    value="80"/>
+    <param name="map_height"        type="double"    value="80"/>
+    <param name="map_resolution"    type="double"    value="0.05"/>
+  </node>
+
+  <node name= "syn_sonar" pkg= "syn" type= "syn_sonar" >
+    <remap from="syn_sonar_scan" to="/local/local_map/scan" />
+  </node>
+
+  <node name= "local_map" pkg= "local_map" type= "local_map" ns="local">
+    <remap from="/scan" to="local_map/scan" />
+    <remap from="/local_map" to="/sonarmap" />
+    <param name="map_width"         type="double"    value="80"/>
+    <param name="map_height"        type="double"    value="80"/>
+    <param name="map_resolution"    type="double"    value="0.05"/>
+  </node>
+
+    <node name= "syn_map_pub" pkg= "syn" type= "syn_map_pub" >
+  </node>
+
+
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map sonar 100" ns="local"/>
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" args="0 0 0 0 0 0 map laser 100" />
+  <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher_" args="0 0 0 0 0 0 map local_map 100" />
+
+</launch>

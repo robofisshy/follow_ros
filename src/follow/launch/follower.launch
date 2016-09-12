@@ -1,0 +1,19 @@
+<!--
+  The turtlebot people (or whatever) follower nodelet.   
+ -->
+<launch>
+  <arg name="simulation" default="false"/>
+  <group unless="$(arg simulation)"> <!-- Real robot -->
+    <include file="$(find turtlebot_follower)/launch/includes/velocity_smoother.launch.xml"/>
+    <include file="$(find turtlebot_follower)/launch/includes/safety_controller.launch.xml"/>
+
+
+  <!--  Load turtlebot follower into the 3d sensors nodelet manager to avoid pointcloud serializing -->
+    <node pkg="follow" type="follow" name="follow">
+  
+    </node>
+  </group>
+  <group if="$(arg simulation)">
+    <!-- not supported.. -->
+  </group>
+</launch>

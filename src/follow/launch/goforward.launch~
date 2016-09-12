@@ -1,0 +1,9 @@
+<launch>
+
+  <node name= "goforward" pkg= "goforward" type= "goforward" output="screen">
+    <param name="kp"         type="double"    value="5"/>
+    <param name="ki"        type="double"    value="0"/>
+    <param name="kd"    type="double"    value="0"/>
+  </node>
+
+</launch>
