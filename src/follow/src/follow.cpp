@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	//ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel", 1);
 	ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel_mux/input/navi", 1);
 	double min_y_(-0.35), max_y_(0.35),
-			min_x_(-0.4), max_x_(0.1),
+			min_x_(0), max_x_(0.4),
 			max_z_(2), goal_z_(0.6),
 			z_scale_(1), x_scale_(6);
 	double accel_lim_v(0.6);
@@ -197,7 +197,7 @@ int main(int argc, char** argv)
 		}
 		//If there are points, find the centroid and calculate the command goal.
 		//If there are no points, simply publish a stop goal.
-		if (n>4000)
+		if (n>100)
 		{
 			x /= n;
 			y /= n;
