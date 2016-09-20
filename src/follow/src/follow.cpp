@@ -57,14 +57,14 @@ int main(int argc, char** argv)
 	//ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel", 1);
 	ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel_mux/input/navi", 1);
 	double min_y_(-0.35), max_y_(0.35),
-			min_x_(0), max_x_(0.4),
-			max_z_(2), goal_z_(0.6),
-			z_scale_(1), x_scale_(6);
-	double accel_lim_v(0.6);
-	double accel_lim_w(1);
+			min_x_(0.1), max_x_(0.5),
+			max_z_(1.2), goal_z_(0.6),
+			z_scale_(2), x_scale_(3);
+	double accel_lim_v(1);
+	double accel_lim_w(5.4);
 	double speed_lim_v(1);
-	double speed_lim_w(5.4);
-	double decel_factor(1);
+	double speed_lim_w(5.5);
+	double decel_factor(2);
 	bool enabled_(true);
 	Status rc = OpenNI::initialize();
 	if (rc != STATUS_OK)
@@ -92,7 +92,6 @@ int main(int argc, char** argv)
 			return 3;
 		}
 	}
-
 	VideoMode modeDepth;
 	modeDepth.setResolution( 640, 480 );
 	modeDepth.setFps( 30 );
@@ -197,7 +196,8 @@ int main(int argc, char** argv)
 		}
 		//If there are points, find the centroid and calculate the command goal.
 		//If there are no points, simply publish a stop goal.
-		if (n>100)
+
+		if (n>200)
 		{
 			x /= n;
 			y /= n;
@@ -215,7 +215,7 @@ int main(int argc, char** argv)
 				current_cmd.linear.x = (z - goal_z_) * z_scale_;
 				if(current_cmd.linear.x<0)
 					current_cmd.linear.x=0;
-				current_cmd.angular.z = -y * x_scale_;
+				current_cmd.angular.z = y * x_scale_;
 				//cmdpub_.publish(cmd);
 			}
 
