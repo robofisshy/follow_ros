@@ -57,14 +57,14 @@ int main(int argc, char** argv)
 	//ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel", 1);
 	ros::Publisher cmdpub_ = node.advertise<geometry_msgs::Twist> ("cmd_vel_mux/input/navi", 1);
 	double min_y_(-0.35), max_y_(0.35),
-			min_x_(0.1), max_x_(0.5),
-			max_z_(1.2), goal_z_(0.6),
-			z_scale_(2), x_scale_(3);
-	double accel_lim_v(1);
+			min_x_(0.2), max_x_(0.5),
+			max_z_(1.5), goal_z_(0.6),
+			z_scale_(2), x_scale_(6);
+	double accel_lim_v(0.6);
 	double accel_lim_w(5.4);
 	double speed_lim_v(1);
 	double speed_lim_w(5.5);
-	double decel_factor(2);
+	double decel_factor(1);
 	bool enabled_(true);
 	Status rc = OpenNI::initialize();
 	if (rc != STATUS_OK)
@@ -197,7 +197,7 @@ int main(int argc, char** argv)
 		//If there are points, find the centroid and calculate the command goal.
 		//If there are no points, simply publish a stop goal.
 
-		if (n>200)
+		if (n>100)
 		{
 			x /= n;
 			y /= n;
